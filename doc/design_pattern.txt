@@ -1,0 +1,22 @@
+FolderController: // repsonisble for hadling the search event 
+    RootFolderBloc:
+    // Recevies the search event and on new data updates the current folder structure 
+    // transfers the open and close event to the repective folder
+    // Handles the pagination of the folder 
+    // Handles 
+
+
+FolderBloc:
+    deleted:
+    opening:
+    closing:
+    state: [] --> have list of folder and fileblocs
+        FolderBloc:
+        FileBloc:
+    
+
+
+FileBloc:
+    delete
+    download
+    uploading
