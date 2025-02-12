@@ -1,6 +1,6 @@
-class File {
+class AppFile {
   final String name;
   final String format;
 
-  File({required this.name, required this.format});
+  AppFile({required this.name, required this.format});
 }

@@ -2,7 +2,7 @@ part of 'file_bloc.dart';
 
 @immutable
 sealed class FileEvent {
-  final File file;
+  final AppFile file;
 
   const FileEvent({required this.file});
 }

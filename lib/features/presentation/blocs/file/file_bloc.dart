@@ -6,7 +6,7 @@ part 'file_event.dart';
 part 'file_state.dart';
 
 class FileBloc extends Bloc<FileEvent, FileState> {
-  FileBloc({required File file}) : super(FileStateStagnant(file: file)) {
+  FileBloc({required AppFile file}) : super(FileStateStagnant(file: file)) {
     on<FileEvent>((event, emit) {});
     on<FileEventDelete>(_onFileEventDelete);
     on<FileEventDownload>(_onFileEventDownload);
@@ -26,7 +26,12 @@ class FileBloc extends Bloc<FileEvent, FileState> {
     // Add your event handling logic here
   }
 
-  void _onFileEventDelete(FileEventDelete event, Emitter<FileState> emit) {
+  void _onFileEventDelete(FileEventDelete event, Emitter<FileState> emit) async {
     // Add your event handling logic here
+    emit(FileStateDeleting(file: event.file));
+
+    await Future.delayed(Duration(seconds: 4));
+
+    emit(FileStateDeleted(file: event.file));
   }
 }

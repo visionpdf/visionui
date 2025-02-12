@@ -19,6 +19,10 @@ class FolderStateDeleting extends FolderState {
   const FolderStateDeleting({required super.folder});
 }
 
+class FolderStateDeleted extends FolderState {
+  const FolderStateDeleted({required super.folder});
+}
+
 class FolderStateOpen extends FolderState {
   const FolderStateOpen({required super.folder});
 }

@@ -7,6 +7,10 @@ sealed class FolderEvent {
   const FolderEvent({required this.folder});
 }
 
+class FolderEventLoading extends FolderEvent {
+  const FolderEventLoading({required super.folder});
+}
+
 class FolderEventOpen extends FolderEvent {
   const FolderEventOpen({required super.folder});
 }
@@ -25,4 +29,8 @@ class FolderEventFailed extends FolderEvent {
 
 class FolderEventUpdate extends FolderEvent {
   const FolderEventUpdate({required super.folder});
+}
+
+class FolderEventUpdateParent extends FolderEvent {
+  const FolderEventUpdateParent({required super.folder});
 }

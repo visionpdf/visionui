@@ -2,7 +2,7 @@ part of 'file_bloc.dart';
 
 @immutable
 sealed class FileState {
-  final File file;
+  final AppFile file;
 
   const FileState({required this.file});
 }
@@ -17,6 +17,10 @@ class FileStateUploading extends FileState {
 
 class FileStateDeleting extends FileState {
   const FileStateDeleting({required super.file});
+}
+
+class FileStateDeleted extends FileState {
+  const FileStateDeleted({required super.file});
 }
 
 class FileStateFailed extends FileState {
