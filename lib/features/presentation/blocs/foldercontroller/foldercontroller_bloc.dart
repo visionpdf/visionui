@@ -20,6 +20,7 @@ class FoldercontrollerBloc extends Bloc<FoldercontrollerEvent, FoldercontrollerS
   }
 
   void _onFoldercontrollerEventSearch(FoldercontrollerEventSearch event, Emitter<FoldercontrollerState> emit) async {
+    await Future.delayed(Duration(milliseconds: 200));
     final res = await _usecaseGetRepository(UsecaseGetRepositoryParams(pageIndex: event.pageIndex, filter: event.search));
 
     res.fold(
@@ -34,8 +35,7 @@ class FoldercontrollerBloc extends Bloc<FoldercontrollerEvent, FoldercontrollerS
     );
   }
 
-  void _onFoldercontrollerEventUpdateTextSearchFolders(
-      FoldercontrollerEventUpdateTextSearchFolders event, Emitter<FoldercontrollerState> emit) async {
+  void _onFoldercontrollerEventUpdateTextSearchFolders(FoldercontrollerEventUpdateTextSearchFolders event, Emitter<FoldercontrollerState> emit) async {
     if (event.appFiles.isEmpty) {
       add(FoldercontrollerEventSearch(pageIndex: 0));
     } else {

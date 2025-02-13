@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visionui/core/entity/file.dart';
 import 'package:visionui/core/entity/folder.dart';
 import 'package:visionui/core/theme/color_palete.dart';
-import 'package:visionui/core/utils/widgets/delete_loading.dart';
 import 'package:visionui/features/presentation/blocs/file/file_bloc.dart';
 import 'package:visionui/features/presentation/blocs/folder/folder_bloc.dart';
 
@@ -56,32 +55,34 @@ class FileWidget extends StatelessWidget {
                 Expanded(
                   child: Text(state.file.name, overflow: TextOverflow.ellipsis),
                 ),
-                state is! FileStateDeleting
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.delete_outlined,
-                          size: 15,
-                        ),
-                        color: Colors.white,
-                        onPressed: () {
-                          context.read<FileBloc>().add(FileEventDelete(file: state.file));
-                        },
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: SizedBox(
-                          height: 15,
-                          width: 15,
-                          child: DeleteLoading(),
-                        ),
-                      ),
+                // state is! FileStateDeleting
+                //     ? IconButton(
+                //         icon: Icon(
+                //           Icons.delete_outlined,
+                //           size: 15,
+                //         ),
+                //         color: Colors.white,
+                //         onPressed: () {
+                //           context.read<FileBloc>().add(FileEventDelete(file: state.file));
+                //         },
+                //       )
+                //     : Padding(
+                //         padding: const EdgeInsets.only(right: 10),
+                //         child: SizedBox(
+                //           height: 15,
+                //           width: 15,
+                //           child: DeleteLoading(),
+                //         ),
+                //       ),
                 IconButton(
                   icon: Icon(
                     Icons.cloud_download_outlined,
                     size: 15,
                   ),
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<FileBloc>().add(FileEventDownload(file: file));
+                  },
                 ),
               ],
             ),

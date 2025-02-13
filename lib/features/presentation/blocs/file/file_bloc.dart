@@ -1,3 +1,4 @@
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visionui/core/entity/file.dart';
@@ -22,8 +23,12 @@ class FileBloc extends Bloc<FileEvent, FileState> {
     // Add your event handling logic here
   }
 
-  void _onFileEventDownload(FileEventDownload event, Emitter<FileState> emit) {
-    // Add your event handling logic here
+  void _onFileEventDownload(FileEventDownload event, Emitter<FileState> emit) async {
+    try {
+      await FileSaver.instance.saveFile(name: event.file.name, ext: event.file.format, link: LinkDetails(link: "http://192.168.0.100:3000/view/sample.pdf"));
+    } catch (e) {
+      print(e);
+    }
   }
 
   void _onFileEventDelete(FileEventDelete event, Emitter<FileState> emit) async {

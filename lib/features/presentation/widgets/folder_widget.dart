@@ -78,22 +78,22 @@ class FolderWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        folder.name,
+                        folder.name.replaceRange(0, 1, folder.name.characters.first.toUpperCase()),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    if (parentFolder != null)
-                      IconButton(
-                        icon: Icon(
-                          Icons.delete_outlined,
-                          size: 15,
-                        ),
-                        color: Colors.white,
-                        onPressed: () {
-                          context.read<FolderBloc>().add(FolderEventDelete(folder: state.folder));
-                        },
-                      ),
+                    // if (parentFolder != null)
+                    //   IconButton(
+                    //     icon: Icon(
+                    //       Icons.delete_outlined,
+                    //       size: 15,
+                    //     ),
+                    //     color: Colors.white,
+                    //     onPressed: () {
+                    //       context.read<FolderBloc>().add(FolderEventDelete(folder: state.folder));
+                    //     },
+                    //   ),
                     IconButton(
                       icon: Icon(
                         Icons.cloud_upload_outlined,
@@ -138,6 +138,8 @@ class FolderWidget extends StatelessWidget {
   }
 
   Widget getDeletingView(FolderState state) {
+    String folderName = folder.name;
+    folderName = folderName.replaceRange(0, 1, folderName.characters.first.toUpperCase());
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -148,7 +150,7 @@ class FolderWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  folder.name,
+                  folderName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Colors.white),
                 ),

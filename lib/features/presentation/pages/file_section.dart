@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:visionui/core/entity/file.dart';
 import 'package:visionui/features/presentation/blocs/file_search/file_search_bloc.dart';
-import 'package:visionui/features/presentation/blocs/file_view/file_view_bloc.dart';
 import 'package:visionui/features/presentation/blocs/foldercontroller/foldercontroller_bloc.dart';
 import 'package:visionui/features/presentation/blocs/search_provider.dart';
 import 'package:visionui/features/presentation/widgets/file_view_widget.dart';
