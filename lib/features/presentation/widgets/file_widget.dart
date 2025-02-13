@@ -32,6 +32,7 @@ class FileWidget extends StatelessWidget {
 
               final updatedFolder = Folder(
                   name: folder.name,
+                  path: folder.path,
                   folders: folder.folders,
                   files: folder.files
                     ..removeWhere(

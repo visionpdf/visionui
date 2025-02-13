@@ -9,3 +9,9 @@ class FoldercontrollerEventSearch extends FoldercontrollerEvent {
 
   FoldercontrollerEventSearch({this.search, required this.pageIndex});
 }
+
+class FoldercontrollerEventUpdateTextSearchFolders extends FoldercontrollerEvent {
+  final List<AppFile> appFiles;
+
+  FoldercontrollerEventUpdateTextSearchFolders({required this.appFiles});
+}

@@ -28,7 +28,7 @@ class _FolderSectionState extends State<FolderSection> {
     super.initState();
     widthFactor = widget.initialWidthFactor;
     searchController = TextEditingController();
-    context.read<FoldercontrollerBloc>().add(FoldercontrollerEventSearch(pageIndex: 1));
+    context.read<FoldercontrollerBloc>().add(FoldercontrollerEventSearch(pageIndex: 0));
 
     // Listen for search input changes
     searchController.addListener(_onSearchChanged);
@@ -86,7 +86,7 @@ class _FolderSectionState extends State<FolderSection> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is FoldercontrollerStateLoaded) {
-                    return SingleChildScrollView(child: folderWidget(state.folder));
+                    return SingleChildScrollView(child: folderWidget(state.folder, state.search));
                   }
                   return Center(
                     child: Text("Failed to get the repository details"),
@@ -133,14 +133,14 @@ class _FolderSectionState extends State<FolderSection> {
         ),
       );
 
-  Widget folderWidget(Folder folder) {
+  Widget folderWidget(Folder folder, String? searchText) {
     String search = searchController.text.trim();
     return BlocProvider<FolderBloc>(
-      create: (context) => FolderBloc(folder: folder, search: search.isEmpty ? null : search),
+      create: (context) => FolderBloc(folder: folder, search: search.isEmpty ? searchText : search),
       child: FolderWidget(
         folder: folder,
         parentFolder: null,
-        search: search.isEmpty ? null : search,
+        search: search.isEmpty ? searchText : search,
       ),
     );
   }

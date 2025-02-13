@@ -139,13 +139,20 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
                   try {
                     await Future.delayed(Duration(seconds: 2));
 
-                    AppFile appFile = AppFile(name: selectedFile!.name, format: "pdf");
+                    AppFile appFile = AppFile(
+                        name: selectedFile!.name,
+                        format: "pdf",
+                        path: "${folder.path}${createSubFolder ? _folderController.text.trim() : ""}/${selectedFile!.name}");
                     Folder updatedFolder;
                     if (createSubFolder == true) {
-                      Folder newfolder = Folder(name: _folderController.text.trim(), folders: [], files: [appFile]);
-                      updatedFolder = Folder(name: folder.name, folders: folder.folders..add(newfolder), files: folder.files);
+                      Folder newfolder = Folder(
+                          name: _folderController.text.trim(),
+                          folders: [],
+                          files: [appFile],
+                          path: "${folder.path}/${_folderController.text.trim()}");
+                      updatedFolder = Folder(name: folder.name, folders: folder.folders..add(newfolder), files: folder.files, path: folder.path);
                     } else {
-                      updatedFolder = Folder(name: folder.name, folders: folder.folders, files: folder.files..add(appFile));
+                      updatedFolder = Folder(name: folder.name, folders: folder.folders, files: folder.files..add(appFile), path: folder.path);
                     }
 
                     widget.folderBloc.add(FolderEventUpdate(folder: updatedFolder));

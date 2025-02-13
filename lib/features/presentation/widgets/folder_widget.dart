@@ -30,6 +30,7 @@ class FolderWidget extends StatelessWidget {
 
               Folder newFolder = Folder(
                   name: parent.name,
+                  path: parent.path,
                   folders: parent.folders
                     ..removeWhere(
                       (element) => element.name == state.folder.name,
