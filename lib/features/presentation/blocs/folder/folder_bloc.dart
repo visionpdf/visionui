@@ -7,7 +7,12 @@ part 'folder_state.dart';
 
 class FolderBloc extends Bloc<FolderEvent, FolderState> {
   final FolderBloc? parentBloc;
-  FolderBloc({this.parentBloc, required Folder folder}) : super(FolderStateStable(folder: folder)) {
+  FolderBloc({this.parentBloc, required Folder folder, String? search})
+      : super(
+          search == null
+              ? (parentBloc == null ? FolderStateOpen(folder: folder) : FolderStateStable(folder: folder))
+              : FolderStateOpen(folder: folder),
+        ) {
     on<FolderEvent>((event, emit) {});
     on<FolderEventOpen>(_onFolderEventOpen);
     on<FolderEventClose>(_onFolderEventClose);

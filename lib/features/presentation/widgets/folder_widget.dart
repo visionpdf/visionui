@@ -10,17 +10,14 @@ import 'package:visionui/features/presentation/widgets/fileupload_widget.dart';
 class FolderWidget extends StatelessWidget {
   final Folder folder; // Receive folder as parameter
   final FolderBloc? parentFolder;
+  final String? search;
 
-  const FolderWidget({
-    super.key,
-    required this.folder,
-    required this.parentFolder,
-  });
+  const FolderWidget({super.key, required this.folder, required this.parentFolder, this.search});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FolderBloc(folder: folder),
+      create: (context) => FolderBloc(folder: folder, search: search, parentBloc: parentFolder),
       child: BlocConsumer<FolderBloc, FolderState>(
         listener: (context, state) {
           if (state is FolderStateDeleting) {
@@ -55,6 +52,7 @@ class FolderWidget extends StatelessWidget {
               (f) => FolderWidget(
                 folder: f,
                 parentFolder: context.read<FolderBloc>(),
+                search: search,
               ), // ✅ Pass folder directly
             ),
             ...folder.files.map(
