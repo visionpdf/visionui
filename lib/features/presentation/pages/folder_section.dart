@@ -88,8 +88,13 @@ class _FolderSectionState extends State<FolderSection> {
                   } else if (state is FoldercontrollerStateLoaded) {
                     return SingleChildScrollView(child: folderWidget(state.folder, state.search));
                   }
+                  if (state is FoldercontrollerStateFailed) {
+                    return Center(
+                      child: Text("Failed to get the details"),
+                    );
+                  }
                   return Center(
-                    child: Text("Failed to get the repository details"),
+                    child: Text("No files present"),
                   );
                 },
                 listener: (context, state) {},

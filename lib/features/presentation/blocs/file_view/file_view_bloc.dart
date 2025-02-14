@@ -10,7 +10,9 @@ class FileViewBloc extends Bloc<FileViewEvent, FileViewState> {
     on<FileViewEvent>((event, emit) {});
 
     on<FileViewEventViewFile>(
-      (event, emit) {
+      (event, emit) async {
+        emit(FileViewLoading());
+        await Future.delayed(Duration(seconds: 1));
         emit(FileViewUpdate(appFile: event.appFile));
       },
     );

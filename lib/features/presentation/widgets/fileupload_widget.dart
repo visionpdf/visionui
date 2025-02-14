@@ -1,17 +1,28 @@
-import 'dart:io';
+import 'dart:html' as html;
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:visionui/core/entity/file.dart';
 import 'package:visionui/core/entity/folder.dart';
+import 'package:visionui/features/data/repository/folder_repository_impl.dart';
+import 'package:visionui/features/domain/repository/folder_repository.dart';
 import 'package:visionui/features/presentation/blocs/folder/folder_bloc.dart';
 import 'package:visionui/features/presentation/widgets/gradient_button.dart';
 import 'package:visionui/features/presentation/widgets/input_field.dart';
+import 'package:visionui/service_locator.dart';
 
 class FileUploadWidget extends StatefulWidget {
+  final String baseath;
   final FolderBloc folderBloc;
-  const FileUploadWidget({super.key, required this.folderBloc});
+  const FileUploadWidget({
+    super.key,
+    required this.folderBloc,
+    required this.baseath,
+  });
 
   @override
   State<FileUploadWidget> createState() => _FileUploadWidgetState();
@@ -137,8 +148,6 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
                   widget.folderBloc.add(FolderEventLoading(folder: folder));
 
                   try {
-                    await Future.delayed(Duration(seconds: 2));
-
                     AppFile appFile = AppFile(name: selectedFile!.name, format: "pdf", path: "${folder.path}${createSubFolder ? _folderController.text.trim() : ""}/${selectedFile!.name}");
                     Folder updatedFolder;
                     if (createSubFolder == true) {
@@ -148,6 +157,15 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
                       updatedFolder = Folder(name: folder.name, folders: folder.folders, files: folder.files..add(appFile), path: folder.path);
                     }
 
+                    selectedFile = SelectedFile.updatebasePath(
+                      selectedFile!,
+                      widget.baseath,
+                    );
+
+                    FolerRepositoryImpl rep = getIt<FolerRepositoryImpl>();
+
+                    await rep.uploadFile(selectedFile!);
+                    //
                     widget.folderBloc.add(FolderEventUpdate(folder: updatedFolder));
 
                     if (context.mounted) Navigator.of(context).pop();
@@ -167,10 +185,13 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
   }
 }
 
-Future<void> showUploadDialog(BuildContext context, FolderBloc folderBloc) async {
+Future<void> showUploadDialog(BuildContext context, FolderBloc folderBloc, String basepath) async {
   await showDialog(
     context: context,
-    builder: (_) => FileUploadWidget(folderBloc: folderBloc),
+    builder: (_) => FileUploadWidget(
+      folderBloc: folderBloc,
+      baseath: basepath,
+    ),
   );
 }
 
@@ -178,15 +199,26 @@ Future<SelectedFile?> pickFile() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles();
 
   if (result != null) {
-    final fileName = result.files.single.xFile.name;
-    return SelectedFile(name: fileName, file: File(result.files.single.xFile.path));
+    // Get the selected file from the result
+    final fileName = result.files.single.name;
+    final file = result.files.single;
+
+    // Convert to html.File
+    final htmlFile = html.File([file.bytes!], fileName);
+
+    return SelectedFile(name: fileName, file: htmlFile, basePath: "");
   }
   return null;
 }
 
 class SelectedFile {
   final String name;
-  final File file;
+  final String basePath;
+  final html.File file;
 
-  SelectedFile({required this.name, required this.file});
+  SelectedFile({required this.name, required this.file, required this.basePath});
+
+  factory SelectedFile.updatebasePath(SelectedFile file, String path) {
+    return SelectedFile(file: file.file, name: file.name, basePath: path);
+  }
 }

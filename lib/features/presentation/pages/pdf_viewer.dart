@@ -21,6 +21,7 @@ class _PdfViewerState extends State<PdfViewer> {
 
   Future<void> _loadPdf() async {
     try {
+      print(widget.url);
       final response = await http.get(Uri.parse(widget.url));
       print("Response status: ${response.statusCode}");
       print("Response length: ${response.bodyBytes.length}");
@@ -42,7 +43,6 @@ class _PdfViewerState extends State<PdfViewer> {
     print("Viewing pdf");
 
     return Scaffold(
-      appBar: AppBar(title: const Text("PDF Viewer")),
       body: pdfController == null
           ? const Center(child: CircularProgressIndicator())
           : LayoutBuilder(

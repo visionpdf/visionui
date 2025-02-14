@@ -37,7 +37,7 @@ class FoldercontrollerBloc extends Bloc<FoldercontrollerEvent, FoldercontrollerS
 
   void _onFoldercontrollerEventUpdateTextSearchFolders(FoldercontrollerEventUpdateTextSearchFolders event, Emitter<FoldercontrollerState> emit) async {
     if (event.appFiles.isEmpty) {
-      add(FoldercontrollerEventSearch(pageIndex: 0));
+      add(FoldercontrollerEventSearch(pageIndex: 0, search: "junksearch"));
     } else {
       await Future.delayed(Duration(milliseconds: 400));
       Folder updated = buildFolderStructure(event.appFiles);

@@ -10,3 +10,5 @@ final class FileViewUpdate extends FileViewState {
 
   FileViewUpdate({this.appFile});
 }
+
+class FileViewLoading extends FileViewState {}

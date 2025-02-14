@@ -101,7 +101,7 @@ class FolderWidget extends StatelessWidget {
                       ),
                       color: Colors.white,
                       onPressed: () async {
-                        await showUploadDialog(context, BlocProvider.of<FolderBloc>(context));
+                        await showUploadDialog(context, BlocProvider.of<FolderBloc>(context), folder.path);
                       },
                     ),
                     IconButton(

@@ -35,21 +35,27 @@ class SearchFileWidget extends StatelessWidget {
           }
           if (state is FileSearchStateLoaded) {
             return getFilesList(state.files, context);
+          } else if (state is FileSearchStateFailed) {
+            return Center(
+              child: Text("Failed to search files for text."),
+            );
           }
 
-          return Center(
-            child: Text("content loaded"),
-          );
+          return SizedBox.shrink();
         },
       ),
     );
   }
 
   Widget getFilesList(List<AppFile> appFiles, BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (_, index) => getAppFileCard(appFiles[index], context),
-      itemCount: appFiles.length,
-    );
+    return appFiles.isEmpty
+        ? Center(
+            child: Text("No files present with searched content."),
+          )
+        : ListView.builder(
+            itemBuilder: (_, index) => getAppFileCard(appFiles[index], context),
+            itemCount: appFiles.length,
+          );
   }
 
   Widget getAppFileCard(AppFile appFile, BuildContext context) {
